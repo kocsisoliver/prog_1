@@ -43,16 +43,17 @@ int main()
 	//13.4
 	int size=200;
 
-	Image image1 (Point{200, 600}, "kosar.jpg");
-	image1.set_mask(Point(0,200), size, size);
+	Image image1 (Point{400, 600}, "image2.jpg");
+	//image1.set_mask(Point(0,200), size, size);
 	
 
-	Image image2 (Point{600, 400}, "kosar.jpg");
-	image2.set_mask(Point(0,200), size, size);
+	Image image2 (Point{600, 600}, "image2.jpg");
+	//image2.set_mask(Point(0,200), size, size);
 
 
-	Image image3 (Point{400, 0}, "kosar.jpg");
-	image3.set_mask(Point(0,200), size, size);
+	Image image3 (Point{400, 0}, "image2.jpg");
+	//image3.set_mask(Point(0,200), size, size);
+
 
 
 
