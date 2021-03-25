@@ -3,7 +3,7 @@
 //14.1
 struct A
 {
-	virtual void pvf() = 0; //muszaj felulirni a pure virtual funtciont; absztrakt osztaly
+	virtual void pvf() = 0; 
 };
 
 struct B1 : A
@@ -16,7 +16,7 @@ struct B1 : A
 //14.2
 struct D1 : B1
 {
-	void vf() override { cout << "D1::vf()" << endl; } //az overrideal lehet ellenorizni tuti jol mukodik e az overriding
+	void vf() override { cout << "D1::vf()" << endl; } 
 	void f() { cout << "D1::f()" << endl; }
 };
 
@@ -46,7 +46,7 @@ private:
 	int nb = 22;
 };
 
-void f(B2& bbb) { bbb.pvf(); } //B2 objektumokra valo referencia altali hivas, es annak a pvf() fuggvenye
+void f(B2& bbb) { bbb.pvf(); } 
 
 //kiiratás
 int main()
