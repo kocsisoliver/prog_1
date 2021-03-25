@@ -1,5 +1,6 @@
 #include "std_lib_facilities.h"
 
+//14.1
 struct A
 {
 	virtual void pvf() = 0; //muszaj felulirni a pure virtual funtciont; absztrakt osztaly
@@ -12,12 +13,14 @@ struct B1 : A
 	void pvf() { cout << "B1::pvf()" << endl; }
 };
 
+//14.2
 struct D1 : B1
 {
 	void vf() override { cout << "D1::vf()" << endl; } //az overrideal lehet ellenorizni tuti jol mukodik e az overriding
 	void f() { cout << "D1::f()" << endl; }
 };
 
+//14.6
 struct D2 : D1
 {
 	void pvf() override { cout << "D2::pvf()" << endl; }
@@ -28,6 +31,7 @@ struct B2
 	virtual void pvf() = 0;
 };
 
+//14.7
 struct D21 : B2
 {
 	void pvf() override { cout << "D21 string by pvf(): " << str << endl; };
@@ -44,6 +48,7 @@ private:
 
 void f(B2& bbb) { bbb.pvf(); } //B2 objektumokra valo referencia altali hivas, es annak a pvf() fuggvenye
 
+//kiiratás
 int main()
 try {
 	B1 b;
@@ -73,6 +78,7 @@ try {
 	f(dd21);
 	f(dd22);
 
+//hibakezelés	
 	return 0;
 } catch (exception& e){
 	cerr << e.what() << endl;
