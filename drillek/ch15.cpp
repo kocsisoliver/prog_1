@@ -16,25 +16,24 @@ try {
 
 
     //------------------------ Function graphing drill ---------------------------
-    //feladat 1
+    //1
     const int w_width = 600;
     const int w_heigth = 600;
 
     Simple_window win{Point{100, 100}, w_width, w_heigth, "Function graphs."};
-    //1 vege
-
-    //feladat 4
+    
+    //4
     const int axis_length = 400;
     const int notch = 20;
     const int eltolas = 200;
     Axis ax{Axis::x, Point{300-eltolas, 300}, axis_length, notch, "1 == 20 pixels"};
     Axis ay{Axis::y, Point{300, 300+eltolas}, axis_length, notch};
-    //4 vege
+    
 
-    //feladat 5
+    //5
     ax.set_color(Color::red);
     ay.set_color(Color::red);
-    //5 vege1
+    
     //--------------------------------- PART 1 VEGE ----------------------------------
 
     //----------------------- Fuggvenyes part 2 -----------------------------
