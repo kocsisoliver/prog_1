@@ -1,73 +1,62 @@
 #include "Simple_window.h"
 #include "Graph.h"
-#include "std_lib_facilities.h"
 
-double one(double x) { return 1; }
+using namespace Graph_lib;
 
-double slope(double x) { return x/2; }
-
-double square(double x) { return x*x; }
-
-double sloping_cos(double x) { return cos(x)+slope(x); }
+double one(double x) {return 1;}
+double slope(double x) {return x/2;}
+double square(double x) {return x*x;}
+double sloping_cos(double x) {return cos(x) + slope(x);}
 
 int main()
-try {
-    using namespace Graph_lib;
-
-
-    //------------------------ Function graphing drill ---------------------------
+try{
+    const int min=-10;
+    const int max=10;
+    const int points=400;
+    const int x_scal=20;
+    const int y_scal=20;
+    Point origo{300,300};
+    
     //1
-    const int w_width = 600;
-    const int w_heigth = 600;
-
-    Simple_window win{Point{100, 100}, w_width, w_heigth, "Function graphs."};
+    Simple_window win(Point{100,100},600,600, "Function graphs");
+    win.wait_for_button();
     
     //4
-    const int axis_length = 400;
-    const int notch = 20;
-    const int eltolas = 200;
-    Axis ax{Axis::x, Point{300-eltolas, 300}, axis_length, notch, "1 == 20 pixels"};
-    Axis ay{Axis::y, Point{300, 300+eltolas}, axis_length, notch};
+    Axis x{Axis::x,Point{100,300},400,20, "1==20 pixels"};
+    Axis y{Axis::y,Point{300,500},400,20, "1==20 pixels"};
     
-
-    //5
-    ax.set_color(Color::red);
-    ay.set_color(Color::red);
-    
-    //--------------------------------- PART 1 VEGE ----------------------------------
-
-    //----------------------- Fuggvenyes part 2 -----------------------------
-    const int lrange = 10;
-    const int rrange = 11;
-    const int n_points = 400;
-    const int x_scale = 20;
-    const int y_scale = 20;
-    Function egyseg_f{one, lrange, rrange, Point{300, 300}, n_points, x_scale, y_scale};
-   
-    Function slope_f{slope, lrange, rrange, Point{300, 300}, n_points, x_scale, y_scale};
-    Text lab2{Point{475, 200}, "x/2"};
-
-    Function square_f{square, lrange, rrange, Point{300, 300}, n_points, x_scale, y_scale}; //mivel a feladat azt kerte, hogy a range, notch stb. mindegyiknel ugyan azok legyenek, ezert az x^2 fuggveny joval az ablakon kivul van
-
-    //fuggveny megadasa lambda segitsegevel
-    Function cos_f{[] (double x) {return cos(x); }, lrange, rrange, Point{300, 300}, n_points, x_scale, y_scale};
-    cos_f.set_color(Color::blue);
-
-    Function cos_slope{sloping_cos, lrange, rrange, Point{300, 300}, n_points, x_scale, y_scale};
-    //---------------------------------- PART 2 VEGE ----------------------------------------
-
-    win.attach(egyseg_f);
-    win.attach(ax); win.attach(ay);
-    win.attach(slope_f); win.attach(lab2);
-    win.attach(square_f);
-    win.attach(cos_f);
-    win.attach(cos_slope);
+    x.set_color(Color::blue);
+    y.set_color(Color::blue);
+    win.attach(x);
+    win.attach(y);
     win.wait_for_button();
-    return 0;
-} catch (exception& e){
-    cerr << e.what() << endl;
+
+    
+    Function f1 {one, min,max,origo,points,x_scal,y_scal};
+    win.attach(f1);
+    win.set_label("One");
+    win.wait_for_button();
+
+    Function f2 {slope, min,max,origo,points,x_scal,y_scal};
+    win.attach(f2);
+    win.set_label("Slope");
+    win.wait_for_button();
+
+    Function f3 {cos, min,max,origo,points,x_scal,y_scal };
+    f3.set_color(Color::blue);
+    win.set_label("Square");
+    win.attach(f3);
+    win.wait_for_button();
+
+    Function f4 {sloping_cos, min,max,origo,points,x_scal,y_scal};
+    win.attach(f4);
+    win.set_label("Sloping_cos");
+    win.wait_for_button();
+
+}catch(exception& e){
+    cout << "exception: " << e.what() << "\n";
     return 1;
-} catch (...){
-    cerr << "Something went wrong!" << endl;
+}catch(...) {
+    cout << "Unknown error\n";
     return 2;
 }

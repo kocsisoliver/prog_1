@@ -1,85 +1,147 @@
+#include <iostream>
+#include <vector>
 #include "std_lib_facilities.h"
+using namespace std;
 
-template<typename T>
-struct S {
+template <typename T>
+struct S{
+public:
+	explicit S(T v=0) : val{v} {} 
+	
+	S& operator=(const T&);
+
+	T& get() {return val;}
+	const T& get() const {return val;}
+	void set(const T& v);
 private:
 	T val;
-public:
-	S(T vall = T()) : val(vall) {}
-
-	T& get();
-	T get() const { return val; }
-
-	//T set(T newval) { val = newval; }
-
-	T operator=(const T&);
-
 };
 
-template<typename T> T& S<T>::get() { return val; }
-
-//template<typename T> T const S<T>::get() { return val; }
-
-template<typename T> T S<T>::operator=(const T& newval) { val = newval; }
 
 template<typename T>
-istream& operator>>(istream& is, S<T>& tt){
-	is >> tt.get();
+ostream& operator<<(ostream& os,vector<T>& v)
+{
+	for(int i=0;i<v.size();++i)
+	{
+		os << v[i] << " ";
+	}
+	return os;
+}
+
+
+template<typename T>
+istream& operator>>(istream& is,vector<T>& v)
+{
+	char ch=0;
+	int val;
+	is >> ch;
+	if(ch!='{'){
+		return is;
+	}
+	while(is>>val){
+
+		v.push_back(val);
+		is >> ch;
+		if(ch!=',') break;
+	}
+	return is;
+		
+}
+
+
+
+template<typename T> 
+istream& operator>>(istream& is,S<T>& v)
+{
+	T v1;
+	cin >> v1;
+	v=v1;
 	return is;
 }
 
-template<typename T> void read_val(T& v) { cin >> v; }
+
+template<typename T>
+void S<T>::set(const T& v)
+{
+	val=v;
+}
+
+
+template<typename T>
+S<T>& S<T>::operator=(const T& new_v)
+{
+	val=new_v;
+	return *this;
+}
+
+
+template<typename T>
+void read_val(T& v)
+{
+	cin >> v;
+}
+
 
 int main()
-try {
-	S<int> intt {5};
-	S<char> charr {'c'};
-	S<double> doublee {3.1415};
-	S<string> stringg {"alma"};
-	S<vector<int>> vecc { {3, 4, 5, 6} };
-
-	// 4-es feladat
-	//cout << intt.val << " " << charr.val << " " << doublee.val << " " << stringg.val << endl;
-
-	//cout << intt.get() << endl;
-
-	cout << "8-as feladat" << endl;
-	cout << intt.get() << " " << charr.get() << " " << doublee.get() << " " << stringg.get() << endl;
-	vector<int> local = vecc.get();
-	for (auto n : local) cout << n << " ";
+try{
+	S<int> s_int(21);
+	S<char> s_char('x');
+	S<double> s_double(3.14);
+	S<string> s_string("Hello");
+	S<vector<int>> s_vector {vector<int>{1,2,3,4,5}};
+   
+	cout << "S_int: " << s_int.get() << endl;	
+	cout << "S_char: " << s_char.get() << endl;	
+	cout << "S_double: " << s_double.get() << endl;	
+	cout << "S_string: " << s_string.get() << endl;	
+	cout << "S_vector: " << s_vector.get() << endl;	
 	cout << endl;
 
-	/*
-	cout << "9-es feladat" << endl;
-	cout << "Regi intt: " << intt.get() << endl;
-	intt.set(10);
-	cout << intt.get() << endl;
-	*/
+	cout << "Set:" << endl;
+	s_int.set(420);
+	s_char.set('y');
+	s_double.set(3.24);
+	s_string.set("World");
+	cout << "S_int: " << s_int.get() << endl;	
+	cout << "S_char: " << s_char.get() << endl;	
+	cout << "S_double: " << s_double.get() << endl;	
+	cout << "S_string: " << s_string.get() << endl;		
+	cout << endl;
 
-	cout << "10-es feladat" << endl;
-	S<int> masik {25};
-	cout << "Regi intt: " << intt.get() << endl;
-	intt = masik;
-	cout << "Uj intt: " << intt.get() << endl;
+	cout << "= operator" << endl;
+	s_int=900;
+	s_char='N';
+	s_double=9.53;
+	s_string="Yes";
+	cout << "S_int: " << s_int.get() << endl;	
+	cout << "S_char: " << s_char.get() << endl;	
+	cout << "S_double: " << s_double.get() << endl;	
+	cout << "S_string: " << s_string.get() << endl;		
+	cout << endl;
 
-	cout << "11-es teszt" << endl;
-	const S<int> a {36};
-	cout << a.get() << endl;
+	cout << "read_val" << endl;
+	cout << "S_int :";
+	read_val(s_int);
+	cout << "S_char :";
+	read_val(s_char);
+	cout << "S_double :";
+	read_val(s_double);
+	cout << "S_string :";
+	read_val(s_string);
+	cout << endl;
+	cout << "S_int: " << s_int.get() << endl;	
+	cout << "S_char: " << s_char.get() << endl;	
+	cout << "S_double: " << s_double.get() << endl;	
+	cout << "S_string: " << s_string.get() << endl;	 	
+	cout << endl;
 
-	cout << "13-as feladat" << endl;
-	S<int> i;
-	S<double> d;
-	S<string> s;
-	S<char> c;
-	cout << "Kerem irja be a tipusnak megfelelo ertekeket (int, double, string, char): " << endl;
-	read_val(i); read_val(d); read_val(s); read_val(c);
-	cout << i.get() << " " << d.get() << " " << s.get() << " " << c.get() << endl;
-
+	
+	
 	return 0;
-} catch (exception& e) {
-	cerr << e.what() << endl;
+}catch(exception& e) {
+	cout << "Error: " << e.what() << endl;
 	return 1;
-} catch (...) {
-	cerr << "Something went wrong!" << endl;
+}catch(...){
+	cout << "Unknown error" ;
 	return 2;
 }

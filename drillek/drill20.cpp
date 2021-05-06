@@ -1,102 +1,99 @@
-#include<iostream>
-#include<vector>
-#include<list>
-#include<algorithm>
+#include <list>
+#include <vector>
+#include <iostream>
+#include <array>
+#include "std_lib_facilities.h"
 
 using namespace std;
 
-namespace sajat {
-template<typename Iter1, typename Iter2>
-Iter2 copy(Iter1 f1, Iter1 e1, Iter2 f2)
+template<typename T>
+void nov(T& temp,const int value)
 {
-	
-	while (f1 != e1) {
-		*f2 = *f1;
+	for(auto& a : temp)
+	{
+		a=a+value;
+	}
+} 
+
+template<typename T>
+void printout(const T& temp, const string s)
+{	
+	cout << s << ": ";
+	for(auto& a : temp)
+	{
+		cout << a << " ";
+	}
+	cout << endl;
+}
+
+template<typename Iter1,typename Iter2>
+Iter2 m_copy(Iter1 f1, Iter1 e1, Iter2 f2)
+{
+	while(f1!=e1)
+	{
+		*f2=*f1;
 		++f1;
 		++f2;
 	}
 	return f2;
 }
 
-} 
-
-template<typename Iter>
-void printout(Iter first, Iter last, string name)
-{
-	cout << name << endl;
-	for (auto p = first; p != last; ++p){ cout << *p << ' '; }
-	cout << endl;
-}
-
 int main()
-try {
-	// initialization
-	int arr[] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	const int arr_size = sizeof(arr)/sizeof(*arr);
-	vector<int> vec = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-	list<int> ls = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
+try{
+	const int size =10;
+	array<int, size> arr = {0,1,2,3,4,5,6,7,8,9};
+	vector<int> vect= {0,1,2,3,4,5,6,7,8,9};
+	list<int> lis = {0,1,2,3,4,5,6,7,8,9};
 
-	
-	/*printout(&arr[0], &arr[0]+arr_size, "Kezdo array elemek: ");
-	printout(vec.begin(), vec.end(), "Kezdo vektor elemek: ");
-	printout(ls.begin(), ls.end(), "Kezdo lista elemek: ");
-	*/
+	array<int,size> arr2=arr;
+	vector<int> vect2 =vect;
+	list<int> lis2=lis;
 
-	// copying default containers
-	int arr_copy[arr_size];
-	sajat::copy(&arr[0], &arr[0]+arr_size, &arr_copy[0]);
-	vector<int> vec_copy = vec;
-	list<int> ls_copy = ls;
-	
-	
-	/*printout(&arr_copy[0], &arr_copy[0]+arr_size, "Masolt kezdo array elemek: ");
-	printout(vec_copy.begin(), vec_copy.end(), "Masolt kezdo vektor elemek: ");
-	printout(ls_copy.begin(), ls_copy.end(), "Masolt kezdo lista elemek: ");
-	*/
+	cout << "array vector list" << endl;
+	printout(arr2,"Array");
+	printout(vect2,"Vector");
+	printout(lis2,"List");
 
-	// modofing container values
-	for (int i = 0; i < arr_size; ++i) { arr_copy[i] += 2; }
-	for (auto p : vec_copy) { p += 3; }
-	for (auto p = ls_copy.begin(); p != ls_copy.end(); ++p) { *p += 5; }
+	nov(arr,2);
+	nov(vect,3);
+	nov(lis,5);
 
-	// printing out modified container values
-	printout(&arr_copy[0], &arr_copy[0]+arr_size, "Masolt+novelt array elemek: ");
-	printout(vec_copy.begin(), vec_copy.end(), "Masolt+novelt kezdo vektor elemek: ");
-	printout(ls_copy.begin(), ls_copy.end(), "Masolt+novelt kezdo lista elemek: ");
+	cout << "Increase:" << endl;
+	printout(arr,"Array");
+	printout(vect,"Vector");
+	printout(lis,"List");
 
-	// formatting
-	cout <<  endl;
+	m_copy(arr.begin(),arr.end(),vect.begin());
+	m_copy(lis.begin(),lis.end(),arr.begin());
+	cout << "Másolás array->vector ; list ->array" << endl;
+	printout(arr,"Array");
+	printout(vect,"Vector");
+	printout(lis,"List");
 
-	// copying different containers into each other
-	copy(&arr_copy[0], &arr_copy[0]+arr_size, vec_copy.begin());
-	copy(ls_copy.begin(), ls_copy.end(), &arr_copy[0]);
+	auto fv=find(vect.begin(),vect.end(),3);
+	auto dv=distance(vect.begin(),fv);
 
-	// writing out these values
-	printout(vec_copy.begin(), vec_copy.end(), "Array elemek vektorban: ");
-	printout(&arr_copy[0], &arr_copy[0]+arr_size, "Lista elemek arrayben: ");
+	auto fl=find(lis.begin(),lis.end(),27);
+	auto dl=distance(lis.begin(),fl);
 
-	cout << endl;
+	if(dv==vect.size()) cout << "3-as szám nem eleme a vektornak" << endl;
+	else {
+		cout << "3-as itt található ";
+		cout << dv << endl;
+	}
 
-	// existences
-	// in vector
-	const int vec_val = 3;
-    auto vec_p = find(vec_copy.begin(), vec_copy.end(), vec_val);
-    if (vec_p != vec_copy.end())
-    	cout << "Found the number " << vec_val << ", on position " << distance(vec_copy.begin(), vec_p) << "." << endl;
-    else cout << "The number " << vec_val << " could not be found!" << endl;
-
-    // in list
-    const int ls_val = 27;
-    auto ls_p = find(ls_copy.begin(), ls_copy.end(), ls_val);
-    if (ls_p != ls_copy.end())
-    	cout << "Found the number " << ls_val << ", on position " << distance(ls_copy.begin(), ls_p) << "!" << endl;
-    else cout << "The number " << ls_val << " could not be found!" << endl;
+	if(dl==lis.size()) cout << "27-es szám nem eleme a listának" << endl;
+	else {
+		cout << "27-es itt található";
+		cout << dl << endl;
+	}
 
 	return 0;
-} catch (exception& e) {
-	cerr << e.what() << endl;
+
+}catch(exception& e){
+	cout << "Error: " << e.what() << endl;
 	return 1;
-} catch (...) {
-	cerr << "Something went wrong!" << endl;
+}catch(...){
+	cout << "Unknown error" << endl;
 	return 2;
 }
